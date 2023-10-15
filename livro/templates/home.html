@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Home{% endblock 'titulo' %}
+{% block 'conteudo' %}
+<div class="container">
+    <div class="row">
+
+        
+        {% for livro in livros %}
+            <div class="col-md">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title"> {{livro.nome}} </h5>
+                      <h6 class="card-subtitle mb-2 text-muted">
+                        {% if livro.emprestado %}
+                        Livro Emprestado
+                        {% else %}
+                        Livro Disponível
+                        {% endif %}
+                      </h6>
+                      
+                      <a href="{% url 'ver_livro' livro.id %}" class="btn btn-primary">Acessar</a>
+                       
+
+                      </a> 
+                    </div>
+                </div>
+                
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block 'conteudo' %}
+<div style="text-aling: center" class="container">
+    <h1>{{livro.nome}}</h1>
+    <h2>{{livro.autor}}</h2>
+    <h2>{{livro.co_autor}}</h2>
+    <h2>{{livro.data_cadastro}}</h2>
+
+    <h3>
+        {% if livro.emprestado %}
+        Livro Emprestado
+        {% else %}
+        Livro Disponível
+        {% endif %}
+    </h3>
+
+
+
+</div>
+{% endblock %}

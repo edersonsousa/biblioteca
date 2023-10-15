@@ -12,7 +12,9 @@
   </head>
   <body>
     <nav class="navbar navbar-dark bg-dark">
-        <span class="navbar-brand mb-0 h1">Biblioteca</span>
+        <span class="navbar-brand mb-0 h1">
+              <a class="navbar-brand" href="{% url 'home' %}">Biblioteca</a>
+        </span>
       </nav>
     {% block 'conteudo' %} {%endblock%}
     
