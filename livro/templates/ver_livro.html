@@ -1,20 +1,78 @@
 {% extends 'base.html' %}
 
 {% block 'conteudo' %}
-<div style="text-aling: center" class="container">
-    <h1>{{livro.nome}}</h1>
-    <h2>{{livro.autor}}</h2>
-    <h2>{{livro.co_autor}}</h2>
-    <h2>{{livro.data_cadastro}}</h2>
+<div class="container">
+<br>
+<form action"#" method="POST">
+        {% csrf_token %}
+            <p>
+                <label>Nome do Livro:</label>
+                    <input class="form-control" type="text" value={{livro.nome}}></input>
+            </p>
+            <p>
+                <label>Nome do Autor:</label>
+                    <input style="width: 40%;" class="form-control" type="text" value={{livro.autor}}></input>    
+            </p>
+            <p>
+                <label>Nome do Co Autor:</label>
+                    <input style="width: 40%;" class="form-control" type="text" value={{livro.co_autor}}></input> 
+            </p>
+            <p>
+            <label>Categoria:</label>
+            <select name="categoria">
+            
+                {% for i in categoria_livro%}
+                    {% if livro.categoria.nome == i.nome %}
+                        <option selected>{{i}}</option>
+                    {% else %}
+                        <option>{{i}}</option>
+                    {% endif %}
+                {% endfor %}
+            
+            </select>
+            </p>
+            <p>
+                <label>Data de Cadastro:</label>   
+                    <input style="width: 40%;" class="form-control" type="text" value={{livro.data_cadastro}}></input> 
+            </p>   
+                <label>Livro Emprestado &nbsp; &nbsp;</label>
+                    {% if livro.emprestado %}
+                        <input checked class="transform: scale(2.0)" type="checkbox" name="emprestado">   
+                    {% else %}
+                        <input class="transform: scale(2.0)" type="checkbox" name="emprestado">   
+                    {% endif %}
+            <br><br>
 
-    <h3>
-        {% if livro.emprestado %}
-        Livro Emprestado
-        {% else %}
-        Livro Disponível
-        {% endif %}
-    </h3>
 
+            <input type="submit" class="btn btn-success btn-lg" value="Salvar">
+</form>
+<hr>
+<h1> Histórico de Empréstimo</h1>
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Data de Empréstimo</th>
+        <th scope="col">Data de Devolução</th>
+        <th scope="col">Duração</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for i in emprestimos%}
+                <tr>
+                    {% if i.nome_emprestado_anonimo == None %}
+                        <th scope="row">{{i.nome_emprestado}}</th>
+                    {% else %}
+                        <th scope="row">{{i.nome_emprestado_anonimo}}</th>
+                    {% endif %}
+                        <td>{{i.data_emprestimo}}</td>
+                        <td>{{i.data_devolucao}}</td>
+                        <td></td>
+                </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 
 
 </div>
