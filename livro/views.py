@@ -7,7 +7,7 @@ def home(request):
     if request.session.get('usuario'):
         usuario = Usuario.objects.get(id = request.session['usuario'])
         livros = Livros.objects.filter( usuario = usuario)
-        return render(request,'home.html', {'livros': livros})
+        return render(request,'home.html', {'livros': livros, 'usuario_logado': request.session.get('usuario') })
 
     else:
         return redirect('/auth/login/?status=2')
