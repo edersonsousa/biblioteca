@@ -10,6 +10,10 @@ def home(request):
         usuario = Usuario.objects.get(id = request.session['usuario'])
         livros = Livros.objects.filter( usuario = usuario)
         form = CadastroLivro()
+        form.fields['usuario'].initial = request.session['usuario']
+        #Para trazer apenas as categoria cadastradas pelo usuário
+        #Acho válido repensar isso depois
+        form.fields['categoria'].queryset = Categoria.objects.filter(usuario= usuario)
 
         return render(request,'home.html', {'livros': livros, 
                                             'usuario_logado': request.session.get('usuario'),
@@ -25,9 +29,14 @@ def ver_livro(request, id):
         if request.session.get('usuario') == livro.usuario.id :
             #categoria_livro = Categoria.objects.filter(usuario_id = request.session.get('usuario')) # Torno aqui a categorização colaborativa
             categoria_livro = Categoria.objects.all()
+            usuario = Usuario.objects.get(id = request.session['usuario'])
             emprestimos = Emprestimo.objects.filter(livro = livro)
             form = CadastroLivro()
-            print(emprestimos)
+            form.fields['usuario'].initial = request.session['usuario']
+            #Para trazer apenas as categoria cadastradas pelo usuário
+            #Acho válido repensar isso depois
+            form.fields['categoria'].queryset = Categoria.objects.filter(usuario= usuario)
+            
             return render(request, 'ver_livro.html', {'livro': livro, 
                                                         'categoria_livro': categoria_livro, 
                                                         'emprestimos': emprestimos, 
@@ -41,8 +50,9 @@ def ver_livro(request, id):
 def cadastrar_livro(request):
     if request.method == 'POST':
         form = CadastroLivro(request.POST)
+
         if form.is_valid():
             form.save()
+            return redirect('/livro/home')
         else:
             return HttpResponse('Dados Inválidos')
-    return HttpResponse(form)
