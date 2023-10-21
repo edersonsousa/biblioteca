@@ -4,7 +4,6 @@ from usuario.models import Usuario
 from .models import Livros, Categoria, Emprestimo
 from .forms import CadastroLivro, CategoriaLivro
 
-
 def home(request):
     if request.session.get('usuario'):
         usuario = Usuario.objects.get(id = request.session['usuario'])
@@ -16,12 +15,17 @@ def home(request):
         #Acho válido repensar isso depois
         form_categoria = CategoriaLivro()
         form.fields['categoria'].queryset = Categoria.objects.filter(usuario= usuario)
+        usuarios = Usuario.objects.all()
+
+        livros_emprestar = Livros.objects.filter(usuario = usuario).filter(emprestado = False)
 
         return render(request,'home.html', {'livros': livros, 
                                             'usuario_logado': request.session.get('usuario'),
                                             'form': form,
                                             'status_categoria': status_categoria,
-                                            'form_categoria':form_categoria
+                                            'form_categoria':form_categoria,
+                                            'usuarios':usuarios,
+                                            'livros_emprestar':livros_emprestar
                                              })
 
     else:
@@ -41,6 +45,11 @@ def ver_livro(request, id):
             #Acho válido repensar isso depois
             form.fields['categoria'].queryset = Categoria.objects.filter(usuario= usuario)
             form_categoria = CategoriaLivro()
+            usuarios = Usuario.objects.all()
+            livros = Livros.objects.filter(usuario_id = request.session.get('usuario'))
+
+            livros_emprestar = Livros.objects.filter(usuario = usuario).filter(emprestado = False)
+
             
             return render(request, 'ver_livro.html', {  'livro': livro, 
                                                         'categoria_livro': categoria_livro, 
@@ -48,7 +57,10 @@ def ver_livro(request, id):
                                                         'usuario_logado': request.session.get('usuario'),
                                                         'form': form,
                                                         'id_livro': id,
-                                                        'form_categoria':form_categoria
+                                                        'form_categoria':form_categoria,
+                                                        'usuarios':usuarios,
+                                                        'livros':livros,
+                                                        'livros_emprestar':livros_emprestar
                                                     })
         else:
             return redirect('/livro/home')
@@ -80,3 +92,24 @@ def cadastrar_categoria(request):
         return redirect('/livro/home?cadastro_categoria=1')
     else:
         return HttpResponse('Errooooo')
+
+
+def cadastrar_emprestimo(request):
+    if request.method == 'POST':
+        nome_emprestado = request.POST.get('nome_emprestado')
+        nome_emprestado_anonimo = request.POST.get('nome_emprestado_anonimo')
+        livro_emprestado = request.POST.get('livro_emprestado')
+        if nome_emprestado_anonimo:
+                emprestimo = Emprestimo(nome_emprestado_anonimo = nome_emprestado_anonimo, 
+                                        livro_id = livro_emprestado)
+        else:
+                emprestimo = Emprestimo(nome_emprestado_id = nome_emprestado, 
+                                        livro_id = livro_emprestado)
+
+        emprestimo.save()
+
+        livro = Livros.objects.get(id = livro_emprestado)
+        livro.emprestado = True
+        livro.save()
+
+        return HttpResponse('Empréstimo Realizado com Sucesso')

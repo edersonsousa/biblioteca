@@ -64,8 +64,29 @@
                               </form>
                           </div>
                 <div style="display: none;" id="emprestimos">
-                  Emprestimos
-              </div>
+                  <button onclick="exibe_input_emprestado(1)" class="btn btn-success" id="btn-usuario-novo">Usuário Novo</button>
+                  <button style="display: none" onclick="exibe_input_emprestado(2)" class="btn btn-dark" id="btn-usuario-existente">Usuário Existente</button>
+                <br><br>
+
+                  <form id="form_emprestimo" action="{% url 'cadastrar_emprestimo'%}" method="POST">
+                    {% csrf_token %}
+                    
+                            <select id="nome_emprestado" class="form-control" name="nome_emprestado">
+                  {% for usuario in usuarios %}
+                                <option value="{{usuario.id}}">{{usuario.nome}}</option>
+                  {% endfor %}
+                            </select>
+                            <br>
+                  <input style="display: none" id="nome_emprestado_anonimo" type="text" placeholder="Digite o nome para quem está emprestando..." name="nome_emprestado_anonimo" class="form-control"><br>
+                  <select class="form-control" name="livro_emprestado">
+                    {% for livro in livros_emprestar %}
+                                  <option value="{{livro.id}}">{{livro.nome}}</option>
+                    {% endfor %}
+                              </select>
+                    <br>
+                    <input type="submit" value="Emprestar" class="btn btn-success">
+                  </form>
+                </div>
 
           </div>
           
@@ -94,6 +115,27 @@
                                   livro.style.display = "none";
 
                                }
+
+                            }
+
+                            function exibe_input_emprestado(v1){
+                              if(v1 == 1){
+                                      document.getElementById('nome_emprestado').style.display = "none"
+                                      document.getElementById('nome_emprestado_anonimo').style.display = "block"
+                                      document.getElementById('btn-usuario-existente').style.display = "block"
+                                      document.getElementById('btn-usuario-novo').style.display = "none"
+
+
+                              }else{
+                                      document.getElementById('nome_emprestado').style.display = "block"
+                                      document.getElementById('nome_emprestado_anonimo').style.display = "none"
+                                      document.getElementById('btn-usuario-novo').style.display = "block"
+                                      document.getElementById('btn-usuario-existente').style.display = "none"
+                                      
+                                      
+
+                              }
+
 
                             }
                           </script>
