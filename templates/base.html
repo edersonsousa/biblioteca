@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,7 +18,7 @@
     
         </span>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Cadastrar Livro!
+        Cadastrar
     </button>
                     {% if usuario_logado %}
                         <a href="{ url 'sair'}" class="btn btn-danger">SAIR</a>
@@ -39,19 +40,63 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="{% url 'cadastrar_livro' %}" method="POST">
-              {% csrf_token %}
-              <table>
-                 {{form.as_table}}
-              </table>
-              <input type="submit" class="btn btn-success" value="Cadastrar">
-            </form>
+            <button style="margin-left: 15px" onclick="mostrar_form(1)" class="btn btn-info"> Categoria </button> 
+            <button style="margin-left: 15px" onclick="mostrar_form(2)" class="btn btn-warning">Livro</button> 
+            <button style="margin-left: 15px" onclick="mostrar_form(3)" class="btn btn-primary">Empréstimo</button> <br><br> 
+
+                <div style="display: none;" id="livro">
+                  <form action="{% url 'cadastrar_livro' %}" method="POST">
+                    {% csrf_token %}
+                    <table>
+                      {{form.as_table}}
+                    </table>
+                    <input type="submit" class="btn btn-success" value="Cadastrar">
+                  </div>
+                  </form>
+                          <div style="display: none;" id="categoria">
+                              <form action="{% url 'cadastrar_categoria' %}" method="POST"> 
+                              {% csrf_token %}
+                                  <table>
+                                    {{form_categoria.as_table}}
+                                  </table>
+                                  <input type="hidden" name="usuario" value="{{usuario_logado}}">
+                                  <input class="btn btn-success" type="submit" value="Enviar">
+                              </form>
+                          </div>
+                <div style="display: none;" id="emprestimos">
+                  Emprestimos
+              </div>
+
           </div>
           
         </div>
       </div>
     </div>
 {% endif %}
+
+                          <script>
+                            function mostrar_form(v1){
+                              categoria = document.getElementById('categoria')
+                              livro = document.getElementById('livro')
+                              emprestimo = document.getElementById('emprestimo')
+
+                              if (v1 == 1){
+                                  categoria.style.display = "block";
+                                  livro.style.display = "none";
+                                  emprestimos.style.display = "none";
+                              }else if (v1 == 2){
+                                  livro.style.display = "block";
+                                  categoria.style.display = "none";
+                                  emprestimos.style.display = "none";
+                              }else if (v1 == 3){
+                                  emprestimos.style.display = "block";
+                                  categoria.style.display = "none";
+                                  livro.style.display = "none";
+
+                               }
+
+                            }
+                          </script>
    
   </body>
 </html>
