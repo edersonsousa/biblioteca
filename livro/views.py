@@ -120,9 +120,9 @@ def cadastrar_emprestimo(request):
         livro.emprestado = True
         livro.save()
 
-        return HttpResponse('Empréstimo Realizado com Sucesso')
+        return redirect('/livro/home')
 
-"Devolver Livro"
+
 def devolver_livro(request):
         id = request.POST.get('id_livro_devolver')
         livro_devolver = Livros.objects.get( id = id )
@@ -132,3 +132,32 @@ def devolver_livro(request):
         livro_devolver.emprestado = False
         livro_devolver.save()
         return HttpResponse('Livro devolvido.')
+
+def alterar_livro(request):
+    livro_id = request.POST.get('livro_id')
+    nome_livro = request.POST.get('nome_livro')
+    autor = request.POST.get('autor')
+    co_autor = request.POST.get('co_autor')
+    categoria_id = request.POST.get('categoria_id')
+    categoria = Categoria.objects.get(id = categoria_id)
+    
+    livro = Livros.objects.get(id = livro_id)
+    print(livro)
+    if livro.usuario.id == request.session['usuario']:
+        livro.nome = nome_livro
+        livro.autor = autor
+        livro.co_autor = co_autor
+        livro.categoria = categoria
+        livro.save()
+        return redirect(f'/livro/ver_livro/{livro_id}')
+    else:
+        return redirect('/auth/sair/')
+
+def seus_emprestimos(request):
+    usuario = Usuario.objects.get(id = request.session['usuario'])
+    emprestimos = Emprestimo.objects.filter( nome_emprestado = usuario )
+    return render(request,'seus_emprestimos.html', 
+                            {'usuario_logado': request.session['usuario'],
+                            'emprestimos':emprestimos })
+
+    

@@ -21,29 +21,30 @@
   
 <div class="container">
 <br>
-<form action"#" method="POST">
+<form action="{% url 'alterar_livro' %}" method="POST">
         {% csrf_token %}
+        <input type="hidden" value="{{livro.id}}" name="livro_id">
             <p>
                 <label>Nome do Livro:</label>
-                    <input class="form-control" type="text" value={{livro.nome}}></input>
+                    <input class="form-control" type="text" value="{{livro.nome}}" name="nome_livro"></input>
             </p>
             <p>
                 <label>Nome do Autor:</label>
-                    <input style="width: 40%;" class="form-control" type="text" value={{livro.autor}}></input>    
+                    <input style="width: 40%;" class="form-control" type="text" value="{{livro.autor}}" name="autor" ></input>    
             </p>
             <p>
                 <label>Nome do Co Autor:</label>
-                    <input style="width: 40%;" class="form-control" type="text" value={{livro.co_autor}}></input> 
+                    <input style="width: 40%;" class="form-control" type="text" value="{{livro.co_autor}}" name="co_autor"></input> 
             </p>
             <p>
-            <label>Categoria:</label>
-            <select name="categoria">
+            <label>Categoria:</label><br>
+            <select name="categoria" style="width 20%;" class="form-control" name="categoria_id">
             
                 {% for i in categoria_livro%}
                     {% if livro.categoria.nome == i.nome %}
-                        <option selected>{{i}}</option>
+                        <option selected value="{{i.id}}">{{i}}</option>
                     {% else %}
-                        <option>{{i}}</option>
+                        <option value="{{i.id}}">{{i}}</option>
                     {% endif %}
                 {% endfor %}
             
@@ -51,22 +52,29 @@
             </p>
             <p>
                 <label>Data de Cadastro:</label>   
-                    <input style="width: 40%;" class="form-control" type="text" value={{livro.data_cadastro}}></input> 
+                    <p>{{livro.data_cadastro}}</p>
             </p>   
-                <label>Livro Emprestado &nbsp; &nbsp;</label>
+                <label>Livro Emprestado:</label>
                     {% if livro.emprestado %}
-                        <input checked class="transform: scale(2.0)" type="checkbox" name="emprestado">   
+                          <svg style="color: green" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+                            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                          </svg>  
                     {% else %}
-                        <input class="transform: scale(2.0)" type="checkbox" name="emprestado">   
+                          <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                          </svg>   
                     {% endif %}
             <br><br>
 
 
             <input type="submit" class="btn btn-success btn-lg" value="Salvar">
+            
+</form><br>
+
             <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#exampleModal2">
-                Excluir
-              </button>
-</form>
+              Excluir
+            </button>
+            
 
 <hr>
 <h1> Histórico de Empréstimo</h1>
