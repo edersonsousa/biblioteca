@@ -1,26 +1,67 @@
 {% extends 'base.html' %}
 {% block 'conteudo' %}
 
-{% for emprestimo in emprestimos %}
-<br>
-<label>Data de emprestimo:</label>
-    {{emprestimo.data_emprestimo}}
-<br>
+{% block 'head' %}
+    <style>
+        .cartao{
+            background-color: #BAF7E5;
+            padding: 20px;
+            margin-top: 3%;
+            border-radius: 20px;
+            box-shadow: 4px 4px 8px #538499;
 
-<label>Data de devolução:</label>
-{% if emprestimo.data_devolucao %}:
-    <p>{{emprestimo.data_devolucao}}</p>
-{% else %}:
-    <p>Ainda não foi devolvido.</p>
-<br>
+        }
 
-{% endif %}
-<label>Nome do livro:</label>
-{{emprestimo.livro}}
-<hr>
+    </style>
+{% endblock %}
+                <div class="container">
+                    <h3><br>Seus Empréstimos</h3>
+                            {% for emprestimo in emprestimos %}
+                    <div class="cartao">
+                        <div ="titulo">
+                                <h3>{{emprestimo.livro}}</h3>
+                        </div>
+                        <hr>
+                        <div class="body">
 
-{% endfor %}
+                                <label>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                    </svg>&nbsp    
+                                    
+                                Data de emprestimo:</label>
+                                {{emprestimo.data_emprestimo}}
 
 
+                                <br>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+                                    <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                </svg>&nbsp   
+                                
+                                
+                                <label>Data de devolução  :</label>
+
+                                
+                                {% if emprestimo.data_devolucao %}
+                                    {{emprestimo.data_devolucao}}</p>
+                                {% else %}
+                                    Ainda não foi devolvido.</p>
+                                
+
+                        </div>
+                            
+                           
+
+                            
+
+                            {% endif %}
+                           
+                            
+                            <hr>
+                    </div>
+                            {% endfor %}
+
+                </div>
 
 {% endblock 'conteudo' %}

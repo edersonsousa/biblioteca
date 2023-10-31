@@ -86,6 +86,9 @@
         <th scope="col">Data de Empréstimo</th>
         <th scope="col">Data de Devolução</th>
         <th scope="col">Duração</th>
+        <th scope="col">Avaliação</th>
+
+
       </tr>
     </thead>
     <tbody>
@@ -99,6 +102,11 @@
                         <td>{{i.data_emprestimo}}</td>
                         <td>{{i.data_devolucao}}</td>
                         <td>{{i.data_devolucao|mostra_duracao:i.data_emprestimo}}</td>
+                    {% if i.avaliacao == None %}
+                        <td><button class="btn btn-info"> Avaliar </button>                                    </td>
+                    {% else %}
+                        <td>{{i.avaliacao}}</td>
+                    {% endif %}
                 </tr>
     {% endfor %}
     </tbody>
