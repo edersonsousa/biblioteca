@@ -13,7 +13,8 @@ urlpatterns = [
     path("cadastrar_emprestimo/", views.cadastrar_emprestimo, name='cadastrar_emprestimo'),
     path("devolver_livro", views.devolver_livro, name='devolver_livro'),
     path("alterar_livro", views.alterar_livro, name='alterar_livro'),
-    path('seus_emprestimos', views.seus_emprestimos, name="seus_emprestimos")
+    path('seus_emprestimos', views.seus_emprestimos, name="seus_emprestimos"),
+    path("processa_avaliacao", views.processa_avaliacao, name="processa_avaliacao")
 
 ]
 
