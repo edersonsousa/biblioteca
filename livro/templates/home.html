@@ -14,8 +14,9 @@
         
         {% for livro in livros %}
             <div class="col-md">
+                
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <img class="card-img-top" src="{{livro.img.url}}" alt="Card image cap">
                     <div class="card-body">
                       <h5 class="card-title"> {{livro.nome}} </h5>
                       <h6 class="card-subtitle mb-2 text-muted">
