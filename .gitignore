@@ -1,7 +1,9 @@
 venv/
 /venv/
+venv/*
+/venv/*
 
 *.old
-
+manage.py
 venv
 .vscode
