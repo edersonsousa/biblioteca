@@ -15,11 +15,7 @@
     <nav class="navbar navbar-dark bg-dark">
         <span class="navbar-brand mb-0 h1">
               <a class="navbar-brand" href="{% url 'home' %}">Biblioteca</a>
-    
         </span>
-    
-     
-   
                     {% if usuario_logado %}
                     <div class="dropdown show">
                       <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,8 +33,9 @@
                           
                         </button>
                         
-                        <a class="dropdown-item">Total de Livros: {{total_livros}}</a>
+                        
                         <a href="{% url 'seus_emprestimos' %}" class="btn btn-danger dropdown-item">Seus Empréstimos</a>
+                        <a class="dropdown-item">Total de Livros: {{total_livros}}</a>
                         <div class="dropdown-divider"></div>
                         <a href="{% url 'sair' %}" class="btn btn-danger dropdown-item">Sair</a>
                         
